@@ -1,0 +1,44 @@
+h1 {
+	text-align: center;
+}
+
+#error {
+	background-color: #ffa090;
+	display: none;
+	border-radius: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0.3em;
+	padding: 2px;
+	text-align: center;
+}
+
+#server_status {
+	background-color: #bbbbbb;
+	border-radius: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 4px;
+	text-align: center;
+}
+
+.section {
+	font-size: 20px;
+	font-weight: bolder;
+}
+.evan {
+	margin : 0px;
+	background-color: #bbbbbb;
+}
+
+.odd 
+{
+	margin : 0px;
+	background-color: #cccccc;
+}
+
+@media only screen and (max-width: 576px) {
+	.container-md {
+		width: 95%;
+	}
+}
