@@ -7,25 +7,52 @@ function Sleep(milliseconds) {
 }
 
 function setValues(values) {
-	setValue('temp', values==null?0:values.temperature);
-	document.getElementById('temp_text').innerHTML = Math.round(values==null?0:values.temperature) + '°C';
-	document.getElementById('frequency').innerHTML = values==null?0:values.frequency + 'Hz';
-	setValue('cpu_1', values==null?0:values.cpus.cpu_1);
-	setValue('cpu_2', values==null?0:values.cpus.cpu_2);
-	setValue('cpu_3', values==null?0:values.cpus.cpu_3);
-	setValue('cpu_4', values==null?0:values.cpus.cpu_4);
+	setValue('temp', values==null?0:values.temperature.cpu);
+	document.getElementById('temp_text').innerHTML = Math.round(values==null?0:values.temperature.cpu) + '°C';
+	document.getElementById('frequency').innerHTML = values==null?0:values.cpus.frequency + 'Hz';
+	setValue('cpu_1', values==null?0:values.cpus.cores[0]);
+	setValue('cpu_2', values==null?0:values.cpus.cores[0]);
+	setValue('cpu_3', values==null?0:values.cpus.cores[0]);
+	setValue('cpu_4', values==null?0:values.cpus.cores[0]);
+	//Network
+	var network_html = ""
+	values.network.forEach(element => {
+		network_html += '<div class="row">'
+		network_html += '  <div class="col-md-2"><b>Adapter: '+ element.name +'</b></div>';
+		network_html += '  <div class="col-md-2">Up: '+ element.up +'</div>';
+		network_html += '  <div class="col-md-4">Sent: '+ element.bytes_sent +'</div>';
+		network_html += '  <div class="col-md-4">Received: '+ element.bytes_recv +'</div>';
+		network_html += '</div>';
+	});
+	document.getElementById('network').innerHTML = network_html;
+
+	//Disks
+	var disk_html = ""
+	values.disks.forEach(element => {
+		disk_html += '<div class="row">'
+		disk_html += '  <div class="col-md-3"><b>'+ element.name +'</b></div>';
+		disk_html += '  <div class="col-md-3">Total: '+ element.total +'</div>';
+		disk_html += '  <div class="col-md-3">Used: '+ element.used +'</div>';
+		disk_html += '  <div class="col-md-3">Free: '+ element.free +'</div>';
+		disk_html += '</div>';
+	});
+	document.getElementById('disks').innerHTML = disk_html;
+
+
 	var users_str = "";
 	if(values != null && values.users.length>0) {
 		for(i=0;i< values.users.length; i++) {
-			var date = new Date(values.users[i].since * 1000);
+			var date = new Date(values.users[i].started * 1000);
 			if (i%2 == 0){
-				users_str += '<p class="evan">'+ values.users[i].user +'@' + values.users[i].ip + 
+				users_str += '<p class="evan">'+ values.users[i].name +'@' + values.users[i].host + 
 				             ' since ' + date.toLocaleDateString("de-DE") + ' ' + 
 							 date.toLocaleTimeString("de-DE") + '</p>';
 			}
 			else
 			{
-				users_str += '<p class="odd">'+ values.users[i].user +'@' + values.users[i].ip  + '</p>';
+				users_str += '<p class="odd">'+ values.users[i].name +'@' + values.users[i].host + 
+				' since ' + date.toLocaleDateString("de-DE") + ' ' + 
+				date.toLocaleTimeString("de-DE") + '</p>';
 			}
 			
 		}
